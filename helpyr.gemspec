@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Helpyr is a gem that provides some helpers for rails applications."
   spec.homepage = "https://github.com/LavendaSoftware/helpyr"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.4.0"
+  spec.required_ruby_version = ">= 3.2.0"
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
