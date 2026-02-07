@@ -14,3 +14,4 @@ gem "rubocop-rspec"
 gem "rubocop-rake"
 
 gem "tsort"
+gem "debug"
