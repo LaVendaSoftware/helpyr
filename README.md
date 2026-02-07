@@ -1,6 +1,6 @@
 # Helpyr
 
-Helpyr description.
+Helpyr is a gem that provides some helpers for rails applications.
 
 ## Installation
 

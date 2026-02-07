@@ -1,7 +1,5 @@
 plugins:
   - rubocop-rspec
-
-require:
   - rubocop-rake
 
 inherit_gem:
