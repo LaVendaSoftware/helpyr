@@ -1,0 +1,10 @@
+pt-BR:
+  activemodel:
+    models:
+      company:
+        one: "Empresa"
+        zero: "Empresas"
+        other: "Empresas"
+    attributes:
+      company:
+        name: "Nome"

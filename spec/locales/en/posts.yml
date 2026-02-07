@@ -1,0 +1,15 @@
+pt-BR:
+  activemodel:
+    models:
+      post:
+        one: "Artigo"
+        zero: "Artigos"
+        other: "Artigos"
+    attributes:
+      post:
+        title: "Título"
+        content: "Conteúdo"
+        status: "Status"
+      post/statuses:
+        draft: "Rascunho"
+        published: "Publicado"

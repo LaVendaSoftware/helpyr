@@ -1,3 +1,23 @@
 en:
-  true: "Yes"
-  false: "No"
+  helpyr:
+    boolean:
+      true: "Yes"
+      false: "No"
+    alerts:
+      not_found:
+        male: "No %{model} found."
+        female: "No %{model} found."
+    form:
+      button:
+        create: "Create %{model}"
+        update: "Update %{model}"
+    alerts:
+      create:
+        success: "Record created successfully."
+      update:
+        success: "Record updated successfully."
+      destroy:
+        success: "Record deleted successfully."
+      not_found:
+        male: "No %{model} found."
+        female: "No %{model} found."

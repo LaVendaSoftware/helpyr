@@ -1,3 +1,23 @@
 pt-BR:
-  true: "Sim"
-  false: "Não"
+  helpyr:
+    boolean:
+      true: "Sim"
+      false: "Não"
+    alerts:
+      not_found:
+        male: "Nenhum %{model} foi encontrado."
+        female: "Nenhuma %{model} foi encontrada."
+    form:
+      button:
+        create: "Criar %{model}"
+        update: "Atualizar %{model}"
+    alerts:
+      create:
+        success: "Registro criado com sucesso."
+      update:
+        success: "Registro atualizado com sucesso."
+      destroy:
+        success: "Registro apagado com sucesso."
+      not_found:
+        male: "Nenhum %{model} foi encontrado."
+        female: "Nenhuma %{model} foi encontrada."
