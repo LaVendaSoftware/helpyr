@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/helpyr/version"
+
+branch = `git branch --show-current`.strip
+abort "❌ Release must be done from main branch" unless branch == "main"
+
+puts "🚀 Bump version has been started..."
+
+puts " 📥 Fetching remote tags..."
+system("git fetch --force --tags")
+
+puts " 📥 Fetching remote main branch..."
+system("git pull --rebase origin main")
+abort "❌ Conflicts detected. Please solve them and try again." unless $?.success?
+
+changes = `git diff v#{Helpyr::VERSION}..main --name-only`.strip
+abort "✅ Everything up-to-date" if changes.empty?
+
+current_version = `git describe --tags --abbrev=0`.strip
+puts " 🏷️ Current version: `#{current_version}`"
+
+major, minor, patch = current_version.split(".").map(&:to_i)
+
+increment = nil
+commits = `git log v#{Helpyr::VERSION}..main --pretty=%s`.split("\n")
+commits.each do |msg|
+  if msg.match?(/^(feat|fix)(\(.*\))?!:|BREAKING CHANGE:/)
+    increment = :major
+    break
+  elsif msg.start_with?("feat")
+    increment = :minor unless increment == :major
+  elsif msg.start_with?("fix")
+    increment = :patch if increment.nil?
+  end
+end
+
+case increment
+when :major
+  major += 1
+  minor = 0
+  patch = 0
+when :minor
+  major = 0
+  minor += 1
+  patch = 0
+when :patch
+  major = 0
+  minor = 0
+  patch += 1
+else
+  abort "❌ No version bump needed"
+end
+
+new_version = "#{major}.#{minor}.#{patch}"
+puts " 🏷️ New version: `v#{new_version}`"
+
+commit_sha = `git rev-parse --short main`.strip
+puts " #️⃣ Commit SHA: `#{commit_sha}`"
+
+path = "lib/helpyr/version.rb"
+puts " 📝 Updating file: #{path}..."
+version_file = File.read(path)
+version_file.sub!(Helpyr::VERSION, new_version)
+File.write(path, version_file)
+
+puts " 📦 Building gem..."
+system("gem build helpyr.gemspec")
+abort "❌ Failed to build gem" unless $?.success?
+
+current_gem_to_push = `ls helpyr*.gem | tail -n 1`.strip
+puts " 🚀 Pushing gem: `#{current_gem_to_push}`"
+system("gem push #{current_gem_to_push}")
+abort "❌ Failed to push gem" unless $?.success?
+
+puts " 📝 Committing version file..."
+system("git add #{path}")
+system(%(git commit -m "chore(release): bump v#{new_version}"))
+
+puts " 📤 Pushing new tag version..."
+system("git tag v#{new_version}")
+system("git push --tags")
+
+puts " 🚀 Creating release on github..."
+system("gh release create v#{new_version} --generate-notes")
+
+puts " 📤 Pushing main branch..."
+system("git push origin main")
+
+puts "✅ Bump version has been finished successfully"
